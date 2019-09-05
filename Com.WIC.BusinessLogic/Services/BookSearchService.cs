@@ -21,10 +21,10 @@ namespace Com.WIC.BusinessLogic.Services
 
         public List<string> SearchBooks(string keyword, CategoryEnum? category)
         {
-            if (_configuration.APIs.Books.Where(x => x.Name == "GoogleBooks" && x.Enabled).Count() == 0)
-            {
-                throw new Exception("Google books must be enabled.");
-            }
+            //if (_configuration.APIs.Books.Where(x => x.Name == TextToSpeechProvidersEnum.Google && x.Enabled).Count() == 0)
+            //{
+            //    throw new Exception("Google books must be enabled.");
+            //}
             var result = new List<string>();
             // 1. Connect to Google books api, search the books in given category for given keywords,
             // 2. Use Regex to parse the results and extract relevant sentences,

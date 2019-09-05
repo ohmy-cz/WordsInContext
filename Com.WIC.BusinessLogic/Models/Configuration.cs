@@ -17,7 +17,11 @@ namespace Com.WIC.BusinessLogic.Models
 
     public class APIConfiguration
     {
-        public string Name { get; set; }
+        public TextToSpeechProvidersEnum Name { get; set; }
         public bool Enabled { get; set; }
+        public string APIEndpoint { get; set; }
+        public string APIKey { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }
