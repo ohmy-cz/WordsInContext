@@ -19,7 +19,7 @@
             }
             @if(!string.IsNullOrWhiteSpace(Model.AudioFile))
             {
-                <audio controls src="@Model.AudioFile"></audio>
+                <audio controls src="@Model.AudioFile" type="audio/ogg"></audio>
             }
         }
     </div>

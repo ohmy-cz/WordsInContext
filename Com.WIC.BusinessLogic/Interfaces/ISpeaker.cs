@@ -1,7 +1,9 @@
-﻿namespace Com.WIC.BusinessLogic.Interfaces
+﻿using Com.WIC.BusinessLogic.Classes;
+
+namespace Com.WIC.BusinessLogic.Interfaces
 {
     public interface ISpeaker
     {
-        bool Speak(string text);
+        Result<string> Speak(string text);
     }
 }

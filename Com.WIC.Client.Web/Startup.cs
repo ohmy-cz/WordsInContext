@@ -6,17 +6,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace Com.WIC.Client.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Output = env.WebRootPath + Path.DirectorySeparatorChar + "Output";
         }
 
         public IConfiguration Configuration { get; }
+        public string Output { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,7 +35,7 @@ namespace Com.WIC.Client.Web
             Configuration.Bind("WordsInContext", config);
 
             services.AddSingleton(new BookSearchService(config));
-            services.AddSingleton(new TextToSpeechService(config));
+            services.AddSingleton(new TextToSpeechService(config, Output));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

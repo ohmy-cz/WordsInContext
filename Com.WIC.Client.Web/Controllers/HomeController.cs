@@ -31,8 +31,8 @@ namespace Com.WIC.Client.Web.Controllers
             toBeSpoken.Add($"The word selected is: {model.Keyword}.");
             toBeSpoken.AddRange(model.Results);
             var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
-            speaker.Speak(model.Keyword);
-            model.AudioFile = _textToSpeechService.TextToAudioFile(toBeSpoken);
+            var result = speaker.Speak(string.Join(' ', model.Results));
+            model.AudioFile = "/Output/" + result.Data;
             return View(model);
         }
 

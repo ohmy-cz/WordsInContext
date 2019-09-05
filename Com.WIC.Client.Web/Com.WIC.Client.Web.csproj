@@ -16,4 +16,9 @@
     <ProjectReference Include="..\Com.WIC.BusinessLogic\Com.WIC.BusinessLogic.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Output\" />
+  </ItemGroup>
+
 </Project>
