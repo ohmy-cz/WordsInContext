@@ -7,8 +7,12 @@
         <h1 class="display-4">Welcome</h1>
         @using (Html.BeginForm())
         {
-            @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, placeholder = "Enter the word to practice" })
-            <button type="submit">Make my mp3</button>
+            <div class="input-group mb-3">
+                @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, placeholder = "Enter the word to practice", @class = "form-control" })
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Make my mp3</button>
+                </div>
+            </div>
         }
         @if (Model.Results != null && Model.Results.Count() > 0)
         {
@@ -17,7 +21,7 @@
             {
                 <p>@r</p>
             }
-            @if(!string.IsNullOrWhiteSpace(Model.AudioFile))
+            @if (!string.IsNullOrWhiteSpace(Model.AudioFile))
             {
                 <audio controls src="@Model.AudioFile" type="audio/ogg"></audio>
             }
