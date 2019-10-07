@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Com.WIC.Client.Web.Models;
 using Com.WIC.BusinessLogic.Services;
+using System.IO;
 
 namespace Com.WIC.Client.Web.Controllers
 {
@@ -32,7 +33,7 @@ namespace Com.WIC.Client.Web.Controllers
             toBeSpoken.AddRange(model.Results);
             var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
             var result = speaker.Speak(string.Join(' ', model.Results));
-            model.AudioFile = "/Output/" + result.Data;
+            model.AudioFile = Path.DirectorySeparatorChar + "Output" + Path.DirectorySeparatorChar + result.Data;
             return View(model);
         }
 
