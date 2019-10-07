@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.WIC.BusinessLogic", "Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.WIC.Client.Console", "Com.WIC.Client.Console\Com.WIC.Client.Console.csproj", "{973CBD9E-6910-4541-974D-E0F25B21DD7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.WIC.Client.Web", "Com.WIC.Client.Web\Com.WIC.Client.Web.csproj", "{543B7A70-53BA-4D93-AC00-D1EF4DC70474}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.WIC.Client.Web", "Com.WIC.Client.Web\Com.WIC.Client.Web.csproj", "{543B7A70-53BA-4D93-AC00-D1EF4DC70474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.WIC.Tests.UnitTests", "Com.WIC.Tests.UnitTests\Com.WIC.Tests.UnitTests.csproj", "{B8CC46C3-5110-4017-9E06-FA83C0F34D49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,18 @@ Global
 		{543B7A70-53BA-4D93-AC00-D1EF4DC70474}.Release|iPhone.Build.0 = Release|Any CPU
 		{543B7A70-53BA-4D93-AC00-D1EF4DC70474}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{543B7A70-53BA-4D93-AC00-D1EF4DC70474}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Release|iPhone.Build.0 = Release|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{B8CC46C3-5110-4017-9E06-FA83C0F34D49}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
