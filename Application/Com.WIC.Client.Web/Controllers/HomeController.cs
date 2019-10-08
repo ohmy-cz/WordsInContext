@@ -33,8 +33,14 @@ namespace Com.WIC.Client.Web.Controllers
             toBeSpoken.AddRange(model.Results);
             var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
             var result = speaker.Speak(string.Join(' ', model.Results));
-            model.AudioFile = Path.DirectorySeparatorChar + "Output" + Path.DirectorySeparatorChar + result.Data;
-            return View(model);
+            if (result.Status == ResultStatusEnum.OK)
+            {
+                model.AudioFile = Path.DirectorySeparatorChar + "Output" + Path.DirectorySeparatorChar + result.Data;
+                return View(model);
+            } else
+            {
+                return Content($"An error occured: {result.Data}", "text/plain");
+            }
         }
 
         public IActionResult Privacy()
