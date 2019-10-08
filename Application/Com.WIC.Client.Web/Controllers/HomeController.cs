@@ -39,7 +39,7 @@ namespace Com.WIC.Client.Web.Controllers
                 return View(model);
             } else
             {
-                return Content($"An error occured: {result.Data}", "text/plain");
+                return Content($"Could not process {model.Keyword}.\r\n\r\nAn error occured:\r\n{result.Data}", "text/plain");
             }
         }
 
