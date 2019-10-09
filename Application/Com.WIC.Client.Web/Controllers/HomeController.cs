@@ -7,20 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Com.WIC.Client.Web.Models;
 using Com.WIC.BusinessLogic.Services;
 using System.IO;
+using Com.WIC.BusinessLogic.Models;
 
 namespace Com.WIC.Client.Web.Controllers
 {
     public class HomeController : Controller
     {
+        readonly Configuration _configuration;
         readonly BookSearchService _bookSearchService;
         readonly TextToSpeechService _textToSpeechService;
-        public HomeController(BookSearchService bookSearchService, TextToSpeechService textToSpeechService)
+        public HomeController(Configuration c, BookSearchService bookSearchService, TextToSpeechService textToSpeechService)
         {
+            _configuration = c ?? throw new ArgumentNullException(nameof(c));
             _bookSearchService = bookSearchService ?? throw new ArgumentNullException(nameof(bookSearchService));
             _textToSpeechService = textToSpeechService ?? throw new ArgumentNullException(nameof(textToSpeechService));
         }
         public IActionResult Index()
         {
+            ViewBag.ttt = _configuration.LolTest;
             var model = new HomeViewModel();
             return View(model);
         }
