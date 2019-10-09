@@ -24,7 +24,7 @@ namespace Com.WIC.Client.Web.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.ttt = _configuration.LolTest;
+            ViewBag.ttt = _configuration.APIs.TextToSpeech[0].APIKey;
             var model = new HomeViewModel();
             return View(model);
         }

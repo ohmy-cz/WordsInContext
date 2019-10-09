@@ -6,7 +6,6 @@ namespace Com.WIC.BusinessLogic.Models
 {
     public class Configuration
     {
-        public string LolTest { get; set; }
         public APISettings APIs {get;set;}
     }
 
