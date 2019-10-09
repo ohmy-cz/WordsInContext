@@ -12,10 +12,13 @@ namespace Com.WIC.BusinessLogic.Classes
     {
         readonly string _audioFilesFolder;
         readonly IBM.Watson.TextToSpeech.v1.TextToSpeechService _service;
-        public SpeakerIBMWatson(APIConfiguration config, string audioFilesFolder) {
+        readonly Configuration _configuration; //TODO: Remove this, only here for CI test
+        public SpeakerIBMWatson(Configuration c, APIConfiguration config, string audioFilesFolder)
+        {
+            _configuration = c ?? throw new ArgumentNullException(nameof(c));
             _audioFilesFolder = audioFilesFolder;
             IamConfig IBMConfig = new IamConfig(
-                apikey: config.APIKey
+                apikey: config.APIKey == "FILLOUT" ? _configuration.IBMApiKey : config.APIKey
             );
 
             _service = new IBM.Watson.TextToSpeech.v1.TextToSpeechService(IBMConfig);

@@ -6,7 +6,8 @@ namespace Com.WIC.BusinessLogic.Models
 {
     public class Configuration
     {
-        public APISettings APIs {get;set;}
+        public string IBMApiKey { get; set; }
+        public APISettings APIs { get; set; }
     }
 
     public class APISettings

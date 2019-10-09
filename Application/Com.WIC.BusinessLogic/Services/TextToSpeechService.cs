@@ -26,7 +26,7 @@ namespace Com.WIC.BusinessLogic.Services
                 throw new NotSupportedException($"Requested text to speech {providerType} tech is not supported");
             switch (providerType) {
                 case TextToSpeechProvidersEnum.IBMWatson:
-                    return new SpeakerIBMWatson(relevantConfig, _audioFilesFolder);
+                    return new SpeakerIBMWatson(_configuration, relevantConfig, _audioFilesFolder);
                 default:
                     throw new NotImplementedException($"Requested text to speech {providerType} not implemented");
             }
