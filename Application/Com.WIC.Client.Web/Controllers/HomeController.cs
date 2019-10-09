@@ -24,8 +24,8 @@ namespace Com.WIC.Client.Web.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.ttt = _c.IBMApiKey;
-            ViewBag.ttt1 = _c.APIs.TextToSpeech[0].APIKey;
+            ViewBag.ttt = _c?.IBMApiKey;
+            ViewBag.ttt1 = _c?.APIs?.TextToSpeech?[0]?.APIKey;
             var model = new HomeViewModel();
             return View(model);
         }
