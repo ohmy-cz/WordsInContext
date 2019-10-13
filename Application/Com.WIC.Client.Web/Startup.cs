@@ -14,20 +14,8 @@ namespace Com.WIC.Client.Web
     {
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            //Configuration = configuration;
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json",
-                             optional: false,
-                             reloadOnChange: true)
-                .AddEnvironmentVariables();
+            Configuration = configuration;
 
-            if (env.IsDevelopment())
-            {
-                //builder.AddUserSecrets<Startup>();
-            }
-
-            Configuration = builder.Build();
             Output = env.WebRootPath + Path.DirectorySeparatorChar + "Output";
 
             if(!Directory.Exists(Output))
