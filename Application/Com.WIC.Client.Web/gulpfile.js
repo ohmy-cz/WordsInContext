@@ -15,4 +15,5 @@ function watchCSS() {
 }
 
 exports.watch = watchCSS;
+exports.css = css;
 exports.default = css;
