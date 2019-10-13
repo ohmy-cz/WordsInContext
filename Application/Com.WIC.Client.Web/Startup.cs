@@ -14,18 +14,12 @@ namespace Com.WIC.Client.Web
     {
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            _env = env;
             Configuration = configuration;
-
-            Output = env.WebRootPath + Path.DirectorySeparatorChar + "Output";
-
-            if(!Directory.Exists(Output))
-            {
-                Directory.CreateDirectory(Output);
-            }
         }
 
+        private readonly IHostingEnvironment _env;
         public IConfiguration Configuration { get; }
-        public string Output { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -40,8 +34,11 @@ namespace Com.WIC.Client.Web
             var config = new Configuration();
             Configuration.Bind("WordsInContext", config);
 
-            services.AddSingleton(new BookSearchService(config));
-            services.AddSingleton(new TextToSpeechService(config, Output));
+            services.AddSingleton(config);
+            services.AddSingleton(new StorageProviderService(_env.WebRootPath));
+            services.AddSingleton<BookSearchService>();
+            services.AddSingleton<TextToSpeechService>();
+            services.AddSingleton<WordInSentencesService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

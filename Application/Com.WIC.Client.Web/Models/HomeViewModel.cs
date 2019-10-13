@@ -10,5 +10,6 @@ namespace Com.WIC.Client.Web.Models
         public string Keyword { get; set; }
         public List<string> Results { get; set; }
         public string AudioFile { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

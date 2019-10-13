@@ -32,9 +32,12 @@ namespace Com.WIC.BusinessLogic.Services
             // 4. Store the resulting mp3 file, return the file path
 
             var searchResults = _googleBooksService.Volumes.List(keyword);
+            searchResults.LangRestrict = "en";
+            searchResults.MaxResults = 20;
+            searchResults.PrettyPrint = false;
+            searchResults.Projection = VolumesResource.ListRequest.ProjectionEnum.Lite;
             var volumes = searchResults.Execute();
-            var text = string.Empty;
-            result = volumes?.Items?.Select(i => Helpers.Helpers.GetSnippet(i?.SearchInfo?.TextSnippet, keyword))?.ToList();
+            result = volumes?.Items?.Select(i => Helpers.Helpers.GetSnippet(i?.SearchInfo?.TextSnippet, keyword))?.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
             return result;
         }
     }

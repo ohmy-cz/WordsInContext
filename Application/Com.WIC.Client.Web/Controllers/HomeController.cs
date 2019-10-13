@@ -15,12 +15,10 @@ namespace Com.WIC.Client.Web.Controllers
 {
     public class HomeController : Controller
     {
-        readonly BookSearchService _bookSearchService;
-        readonly TextToSpeechService _textToSpeechService;
-        public HomeController(BookSearchService bookSearchService, TextToSpeechService textToSpeechService)
+        readonly WordInSentencesService _wordInSentencesService;
+        public HomeController(WordInSentencesService wordInSentencesService)
         {
-            _bookSearchService = bookSearchService ?? throw new ArgumentNullException(nameof(bookSearchService));
-            _textToSpeechService = textToSpeechService ?? throw new ArgumentNullException(nameof(textToSpeechService));
+            _wordInSentencesService = wordInSentencesService ?? throw new ArgumentNullException(nameof(wordInSentencesService));
         }
         public IActionResult Index()
         {
@@ -30,23 +28,20 @@ namespace Com.WIC.Client.Web.Controllers
         [HttpPost]
         public IActionResult Index(HomeViewModel model)
         {
-            model.Keyword = model.Keyword.Sanitize();
-            model.Results = _bookSearchService.SearchBooks(model.Keyword, null);
-            if(model.Results == null)
-                return View(model);
-            var toBeSpoken = new List<string>();
-            toBeSpoken.Add($"The word selected is: {model.Keyword}.");
-            toBeSpoken.AddRange(model.Results);
-            var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
-            var result = speaker.Speak(string.Join(' ', model.Results));
-            if (result.Status == ResultStatusEnum.OK)
+            try
             {
-                model.AudioFile = Path.DirectorySeparatorChar + "Output" + Path.DirectorySeparatorChar + result.Data;
-                return View(model);
-            } else
-            {
-                return Content($"Could not process {model.Keyword}.\r\n\r\nAn error occured:\r\n{result.Data}", "text/plain");
+                var result = _wordInSentencesService.Find(model.Keyword);
+                if (result != null)
+                {
+                    model.AudioFile = result.Item1;
+                    model.Results = result.Item2;
+                }
             }
+            catch (Exception e)
+            {
+                model.ErrorMessage = e.Message;
+            }
+            return View(model);
         }
 
         public IActionResult Privacy()

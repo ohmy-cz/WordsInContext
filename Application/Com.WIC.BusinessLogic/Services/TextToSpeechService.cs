@@ -11,11 +11,9 @@ namespace Com.WIC.BusinessLogic.Services
     public class TextToSpeechService
     {
         readonly Configuration _configuration;
-        readonly string _audioFilesFolder;
-        public TextToSpeechService(Configuration c, string audioFilesFolder)
+        public TextToSpeechService(Configuration c)
         {
             _configuration = c ?? throw new ArgumentNullException(nameof(c));
-            _audioFilesFolder = audioFilesFolder ?? throw new ArgumentNullException(nameof(audioFilesFolder));
             // Create instances for all enabled text to speech apis using a factory
         }
 
@@ -26,7 +24,7 @@ namespace Com.WIC.BusinessLogic.Services
                 throw new NotSupportedException($"Requested text to speech {providerType} tech is not supported");
             switch (providerType) {
                 case TextToSpeechProvidersEnum.IBMWatson:
-                    return new SpeakerIBMWatson(relevantConfig, _audioFilesFolder);
+                    return new SpeakerIBMWatson(relevantConfig);
                 default:
                     throw new NotImplementedException($"Requested text to speech {providerType} not implemented");
             }

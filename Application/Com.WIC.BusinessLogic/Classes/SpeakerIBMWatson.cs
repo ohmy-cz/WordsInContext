@@ -11,11 +11,9 @@ namespace Com.WIC.BusinessLogic.Classes
 {
     class SpeakerIBMWatson : ISpeaker
     {
-        readonly string _audioFilesFolder;
         readonly IBM.Watson.TextToSpeech.v1.TextToSpeechService _service;
-        public SpeakerIBMWatson(APIConfiguration config, string audioFilesFolder)
+        public SpeakerIBMWatson(APIConfiguration config)
         {
-            _audioFilesFolder = audioFilesFolder;
             IamConfig IBMConfig = new IamConfig(
                 apikey: config.APIKey
             );
@@ -24,26 +22,14 @@ namespace Com.WIC.BusinessLogic.Classes
             _service.SetEndpoint(config.APIEndpoint);
         }
 
-        public Result<string> Speak(string text)
+        public void Speak(string text, string filePath)
         {
-            try
+            var response = _service.Synthesize(text);
+            if (response.Result.Length == 0)
+                throw new Exception("IBM Watson Response empty");
+            using (var fileStream = File.Create(filePath))
             {
-                var fileName = text.GetHash() + ".ogg";
-                var filePath = _audioFilesFolder + Path.DirectorySeparatorChar + fileName;
-                if(File.Exists(filePath))
-                    return new Result<string>(fileName, ResultStatusEnum.OK);
-                var response = _service.Synthesize(text);
-                if (response.Result.Length == 0)
-                    throw new Exception("IBM Watson Response empty");
-                using (var fileStream = File.Create(filePath))
-                {
-                    //response.Result.Seek(0, SeekOrigin.Begin);
-                    response.Result.CopyTo(fileStream);
-                }
-                return new Result<string>(fileName, ResultStatusEnum.OK);
-            } catch (Exception e)
-            {
-                return new Result<string>(e.Message, ResultStatusEnum.Error);
+                response.Result.CopyTo(fileStream);
             }
         }
     }

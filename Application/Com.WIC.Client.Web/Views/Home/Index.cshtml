@@ -15,20 +15,24 @@
                 </div>
             </div>
         }
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <p class="alert alert-danger">@Model.ErrorMessage</p>
+        }
+        @if (Model.Results == null && !string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            <p class="alert alert-warning mt-3">No sentences found with @Model.Keyword</p>
+        }
         @if (Model.Results != null && Model.Results.Count() > 0)
         {
             <h2>Results:</h2>
             @foreach (var r in Model.Results)
             {
-                <p>@r</p>
+                <h5>@r</h5>
             }
             @if (!string.IsNullOrWhiteSpace(Model.AudioFile))
             {
                 <audio controls src="@Model.AudioFile" type="audio/ogg"></audio>
             }
-        }
-        @if(Model.Results == null && !string.IsNullOrWhiteSpace(Model.Keyword))
-        {
-            <p class="alert alert-warning mt-3">No sentences found with @Model.Keyword</p>
         }
     </div>

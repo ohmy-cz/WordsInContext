@@ -4,6 +4,6 @@ namespace Com.WIC.BusinessLogic.Interfaces
 {
     public interface ISpeaker
     {
-        Result<string> Speak(string text);
+        void Speak(string text, string filePath);
     }
 }
