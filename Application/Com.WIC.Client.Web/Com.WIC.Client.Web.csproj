@@ -2,17 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Com.WIC.BusinessLogic\Com.WIC.BusinessLogic.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Output\" />
   </ItemGroup>
 
 </Project>
