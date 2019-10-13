@@ -66,7 +66,7 @@ namespace Com.WIC.Client.Web
             app.UseCookiePolicy();
 
             app.UseRouting();
-            app.UseAuthorization();
+            //app.UseAuthorization();
             app.UseEndpoints(endpoints => {
                 endpoints.MapRazorPages();
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
