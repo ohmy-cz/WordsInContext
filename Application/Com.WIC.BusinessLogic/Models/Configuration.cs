@@ -8,6 +8,10 @@ namespace Com.WIC.BusinessLogic.Models
     {
         public string IBMApiKey { get; set; }
         public APISettings APIs { get; set; }
+        public override string ToString()
+        {
+            return $"{IBMApiKey}\r\n{APIs.TextToSpeech[0].APIKey}";
+        }
     }
 
     public class APISettings
