@@ -44,7 +44,6 @@ namespace Com.WIC.Client.Web
             services.AddSingleton(config);
             services.AddSingleton(new BookSearchService(config));
             services.AddSingleton(new TextToSpeechService(config, Output));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +62,6 @@ namespace Com.WIC.Client.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseRouting();
             //app.UseAuthorization();
