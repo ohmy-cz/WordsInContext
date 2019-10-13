@@ -1,4 +1,5 @@
-﻿const { src, dest, watch } = require('gulp');
+﻿/// <binding ProjectOpened='watch' />
+const { src, dest, watch } = require('gulp');
 const sass = require('gulp-sass');
 const minifyCSS = require('gulp-csso');
 
