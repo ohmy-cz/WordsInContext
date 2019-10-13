@@ -40,7 +40,6 @@ namespace Com.WIC.Client.Web
             var config = new Configuration();
             Configuration.Bind("WordsInContext", config);
 
-            services.AddSingleton(config);
             services.AddSingleton(new BookSearchService(config));
             services.AddSingleton(new TextToSpeechService(config, Output));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

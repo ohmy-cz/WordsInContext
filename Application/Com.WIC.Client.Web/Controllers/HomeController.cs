@@ -16,20 +16,13 @@ namespace Com.WIC.Client.Web.Controllers
     {
         readonly BookSearchService _bookSearchService;
         readonly TextToSpeechService _textToSpeechService;
-        readonly Configuration _c;
-        readonly IConfiguration _g;
-        public HomeController(IConfiguration g, Configuration c, BookSearchService bookSearchService, TextToSpeechService textToSpeechService)
+        public HomeController(BookSearchService bookSearchService, TextToSpeechService textToSpeechService)
         {
-            _c = c ?? throw new ArgumentNullException(nameof(c));
-            _g = g ?? throw new ArgumentNullException(nameof(g));
             _bookSearchService = bookSearchService ?? throw new ArgumentNullException(nameof(bookSearchService));
             _textToSpeechService = textToSpeechService ?? throw new ArgumentNullException(nameof(textToSpeechService));
         }
         public IActionResult Index()
         {
-            ViewBag.ttt = string.Join("\r\n", _c.ToString());
-            //ViewBag.ttt1 = _c?.APIs?.TextToSpeech?[0]?.APIKey;
-            ViewBag.ttt1 = string.Join("\r\n", _g.AsEnumerable());
             var model = new HomeViewModel();
             return View(model);
         }
