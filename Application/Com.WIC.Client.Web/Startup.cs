@@ -6,28 +6,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.IO;
 
 namespace Com.WIC.Client.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            //Configuration = configuration;
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json",
-                             optional: false,
-                             reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            if (env.IsDevelopment())
-            {
-                //builder.AddUserSecrets<Startup>();
-            }
-
-            Configuration = builder.Build();
+            Configuration = configuration;
             Output = env.WebRootPath + Path.DirectorySeparatorChar + "Output";
 
             if(!Directory.Exists(Output))
@@ -52,14 +40,15 @@ namespace Com.WIC.Client.Web
             var config = new Configuration();
             Configuration.Bind("WordsInContext", config);
 
+            services.AddRazorPages();
             services.AddSingleton(config);
             services.AddSingleton(new BookSearchService(config));
             services.AddSingleton(new TextToSpeechService(config, Output));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -76,11 +65,11 @@ namespace Com.WIC.Client.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
