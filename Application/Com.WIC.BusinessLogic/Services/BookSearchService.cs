@@ -34,7 +34,7 @@ namespace Com.WIC.BusinessLogic.Services
             var searchResults = _googleBooksService.Volumes.List(keyword);
             var volumes = searchResults.Execute();
             var text = string.Empty;
-            result = volumes.Items.Select(i => Helpers.Helpers.GetSnippet(i?.SearchInfo?.TextSnippet, keyword)).ToList();
+            result = volumes?.Items?.Select(i => Helpers.Helpers.GetSnippet(i?.SearchInfo?.TextSnippet, keyword))?.ToList();
             return result;
         }
     }

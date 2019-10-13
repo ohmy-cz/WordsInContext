@@ -5,14 +5,13 @@
 
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
-        @*<p style="display:none;">@ViewBag.ttt</p>
-        <p style="display:none;">@ViewBag.ttt1</p>*@
+        <p>This application lets you practice words you need to rehearse in complete sentences, which were found in online books.</p>
         @using (Html.BeginForm())
         {
             <div class="input-group mb-3">
-                @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, placeholder = "Enter the word to practice", @class = "form-control" })
+                @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, pattern = "[A-Za-z]{3,}", maxlength = 10, placeholder = "Enter the word to practice", @class = "form-control" })
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Make my mp3</button>
+                    <button class="btn btn-primary" type="submit">Let me hear it</button>
                 </div>
             </div>
         }
@@ -27,5 +26,9 @@
             {
                 <audio controls src="@Model.AudioFile" type="audio/ogg"></audio>
             }
+        }
+        @if(Model.Results == null && !string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            <p class="alert alert-warning mt-3">No sentences found with @Model.Keyword</p>
         }
     </div>

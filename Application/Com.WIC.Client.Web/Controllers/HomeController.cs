@@ -9,6 +9,7 @@ using Com.WIC.BusinessLogic.Services;
 using System.IO;
 using Com.WIC.BusinessLogic.Models;
 using Microsoft.Extensions.Configuration;
+using Com.WIC.BusinessLogic.Extensions;
 
 namespace Com.WIC.Client.Web.Controllers
 {
@@ -29,7 +30,10 @@ namespace Com.WIC.Client.Web.Controllers
         [HttpPost]
         public IActionResult Index(HomeViewModel model)
         {
+            model.Keyword = model.Keyword.Sanitize();
             model.Results = _bookSearchService.SearchBooks(model.Keyword, null);
+            if(model.Results == null)
+                return View(model);
             var toBeSpoken = new List<string>();
             toBeSpoken.Add($"The word selected is: {model.Keyword}.");
             toBeSpoken.AddRange(model.Results);
