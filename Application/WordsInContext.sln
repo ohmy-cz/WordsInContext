@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.WIC.Client.Console", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.WIC.Client.Web", "Com.WIC.Client.Web\Com.WIC.Client.Web.csproj", "{543B7A70-53BA-4D93-AC00-D1EF4DC70474}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com.WIC.Tests.UnitTests", "Com.WIC.Tests.UnitTests\Com.WIC.Tests.UnitTests.csproj", "{B8CC46C3-5110-4017-9E06-FA83C0F34D49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.WIC.Tests.UnitTests", "Com.WIC.Tests.UnitTests\Com.WIC.Tests.UnitTests.csproj", "{B8CC46C3-5110-4017-9E06-FA83C0F34D49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
