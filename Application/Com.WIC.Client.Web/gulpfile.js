@@ -2,14 +2,12 @@
 const { src, dest, watch } = require('gulp');
 const sass = require('gulp-sass');
 const minifyCSS = require('gulp-csso');
-const browsersync = require("browser-sync").create();
 
 function css() {
     return src('SCSS/*.scss', { sourcemaps: true })
         .pipe(sass())
         .pipe(minifyCSS())
-        .pipe(dest('wwwroot/css'))
-        .pipe(browsersync.stream());
+        .pipe(dest('wwwroot/css'));
 }
 
 function watchCSS() {
