@@ -27,12 +27,24 @@ namespace Com.WIC.BusinessLogic.Services
                 return null;
             if (!File.Exists(filePath))
             {
-                var toBeSpoken = new List<string>() { $"The word selected is: {keyword}." };
+                var toBeSpoken = new List<string>() { $"The word selected is: {keyword}. " };
                 toBeSpoken.AddRange(results);
                 var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
-                speaker.Speak(string.Join(" ", results), filePath);
+                speaker.Speak(string.Join(" ", toBeSpoken), filePath);
             }
             return new Tuple<string, List<string>>(_storageProviderService.OutputFolder + "/" + fileName, results);
+        }
+        public string Speak(string sentence)
+        {
+            sentence = sentence.Trim();
+            var fileName = sentence.GetHash() + ".ogg";
+            var filePath = Path.Combine(_storageProviderService.OutputPath, fileName);
+            if (!File.Exists(filePath))
+            {
+                var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
+                speaker.Speak(sentence, filePath);
+            }
+            return _storageProviderService.OutputFolder + "/" + fileName;
         }
     }
 }

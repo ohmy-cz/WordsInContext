@@ -3,36 +3,42 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>This application lets you practice words you need to rehearse in complete sentences, which were found in online books.</p>
-        @using (Html.BeginForm())
-        {
-            <div class="input-group mb-3">
-                @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, pattern = "[A-Za-z]{3,}", maxlength = 10, placeholder = "Enter the word to practice", @class = "form-control" })
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Let me hear it</button>
-                </div>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>This application lets you practice words you need to rehearse in complete sentences, which were found in online books.</p>
+    @using (Html.BeginForm())
+    {
+        <div class="input-group mb-3 @(Model.SentenceMode ? "d-none" : string.Empty)" id="wordentry">
+            @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, pattern = "[A-Za-z]{3,}", maxlength = 20, placeholder = "Enter the word to practice", @class = "form-control" })
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Let me hear it</button>
             </div>
-        }
-        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        </div>
+        @Html.CheckBoxFor(x => Model.SentenceMode, new { id="showsentenceentry" }) <label for="showsentenceentry">Let me enter a whole sentence</label>
+        <div class="@(Model.SentenceMode ? string.Empty : "d-none")" id="sentenceentry">
+            @Html.TextAreaFor(x => Model.Sentence, new { maxlength = 255, placeholder = "Enter the word to practice", @class = "form-control" })
+            <button class="btn btn-primary mt-3" type="submit">Let me hear it</button>
+        </div>
+
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <p class="alert alert-danger">@Model.ErrorMessage</p>
+    }
+    @if (Model.Results == null && !string.IsNullOrWhiteSpace(Model.Keyword))
+    {
+        <p class="alert alert-warning mt-3">No sentences found with @Model.Keyword</p>
+    }
+    @if (Model.Results != null && Model.Results.Count() > 0)
+    {
+        <h2>Results:</h2>
+        @foreach (var r in Model.Results)
         {
-            <p class="alert alert-danger">@Model.ErrorMessage</p>
+            <h5>@r</h5>
         }
-        @if (Model.Results == null && !string.IsNullOrWhiteSpace(Model.Keyword))
+        @if (!string.IsNullOrWhiteSpace(Model.AudioFile))
         {
-            <p class="alert alert-warning mt-3">No sentences found with @Model.Keyword</p>
+            <audio controls src="@Model.AudioFile" type="audio/ogg"></audio>
         }
-        @if (Model.Results != null && Model.Results.Count() > 0)
-        {
-            <h2>Results:</h2>
-            @foreach (var r in Model.Results)
-            {
-                <h5>@r</h5>
-            }
-            @if (!string.IsNullOrWhiteSpace(Model.AudioFile))
-            {
-                <audio controls src="@Model.AudioFile" type="audio/ogg"></audio>
-            }
-        }
-    </div>
+    }
+</div>

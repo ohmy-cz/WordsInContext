@@ -2,3 +2,17 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+$(document)
+    .on('change', '#showsentenceentry', function () {
+        if (!$('#wordentry').hasClass('d-none')) {
+            $('#wordentry').addClass('d-none');
+            $('#sentenceentry').removeClass('d-none');
+            $('#wordentry').find('input').removeAttr('required');
+            $('#sentenceentry').find('textarea').prop('required', true);
+        } else {
+            $('#wordentry').removeClass('d-none');
+            $('#sentenceentry').addClass('d-none');
+            $('#wordentry').find('input').prop('required', true);
+            $('#sentenceentry').find('textarea').removeAttr('required');
+        }
+    });

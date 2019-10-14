@@ -28,13 +28,29 @@ namespace Com.WIC.Client.Web.Controllers
         [HttpPost]
         public IActionResult Index(HomeViewModel model)
         {
+            if(!ModelState.IsValid)
+            {
+                return Error();
+            }
             try
             {
-                var result = _wordInSentencesService.Find(model.Keyword);
-                if (result != null)
+                if (model.SentenceMode)
                 {
-                    model.AudioFile = result.Item1;
-                    model.Results = result.Item2;
+                    var result = _wordInSentencesService.Speak(model.Sentence);
+                    if (result != null)
+                    {
+                        model.AudioFile = result;
+                        model.Results = new List<string> { model.Sentence };
+                    }
+                }
+                else
+                {
+                    var result = _wordInSentencesService.Find(model.Keyword);
+                    if (result != null)
+                    {
+                        model.AudioFile = result.Item1;
+                        model.Results = result.Item2;
+                    }
                 }
             }
             catch (Exception e)
