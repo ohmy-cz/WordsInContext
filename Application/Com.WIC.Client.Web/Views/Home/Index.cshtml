@@ -8,6 +8,7 @@
     <p>This application lets you practice words you need to rehearse in complete sentences, which were found in online books.</p>
     @using (Html.BeginForm())
     {
+        @Html.AntiForgeryToken()
         <div class="input-group mb-3 @(Model.SentenceMode ? "d-none" : string.Empty)" id="wordentry">
             @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, pattern = "[A-Za-z]{3,}", maxlength = 20, placeholder = "Enter the word to practice", @class = "form-control" })
             <div class="input-group-append">

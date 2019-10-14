@@ -25,6 +25,8 @@ namespace Com.WIC.Client.Web.Controllers
             var model = new HomeViewModel();
             return View(model);
         }
+
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult Index(HomeViewModel model)
         {
