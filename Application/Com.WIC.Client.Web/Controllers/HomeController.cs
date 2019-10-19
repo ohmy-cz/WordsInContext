@@ -72,7 +72,7 @@ namespace Com.WIC.Client.Web.Controllers
         [HttpPost]
         public IActionResult Editor(HomeViewModel model)
         {
-            if(model.SuggestedSentences == null)
+            if(HttpContext?.Session?.Keys != null && HttpContext.Session.Keys.Contains(SessionKeyName) && model.SuggestedSentences == null)
             {
                 var storedModel = JsonConvert.DeserializeObject<HomeViewModel>(HttpContext.Session.GetString(SessionKeyName));
                 model.SuggestedSentences = storedModel.SuggestedSentences;

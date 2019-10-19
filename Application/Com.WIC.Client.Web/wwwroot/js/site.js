@@ -16,6 +16,9 @@ $(document)
             $('#sentenceentry').find('textarea').removeAttr('required');
         }
     })
+    .on('click', '.suggested-sentences tr>td', function () {
+        $(this).closest('tr').find('input').trigger('click');
+    })
     .on('change', '.suggested-sentences :checkbox', function () {
         var oldVal = $('#SentencesToSpeak').val();
         var selectedSentence = $(this).parent().next().text();
