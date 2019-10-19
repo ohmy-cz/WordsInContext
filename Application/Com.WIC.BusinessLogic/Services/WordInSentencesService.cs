@@ -3,48 +3,35 @@ using Com.WIC.BusinessLogic.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Com.WIC.BusinessLogic.Services
 {
     public class WordInSentencesService
     {
-        readonly BookSearchService _bookSearchService;
         readonly TextToSpeechService _textToSpeechService;
         readonly StorageProviderService _storageProviderService;
-        public WordInSentencesService(StorageProviderService storageProviderService, BookSearchService bookSearchService, TextToSpeechService textToSpeechService)
+        public WordInSentencesService(StorageProviderService storageProviderService, TextToSpeechService textToSpeechService)
         {
-            _bookSearchService = bookSearchService ?? throw new ArgumentNullException(nameof(bookSearchService));
             _textToSpeechService = textToSpeechService ?? throw new ArgumentNullException(nameof(textToSpeechService));
             _storageProviderService = storageProviderService;
         }
-        public Tuple<string, List<string>> Find(string keyword)
+        public IEnumerable<string> Speak(string sentencesText)
         {
-            keyword = keyword.Sanitize();
-            var fileName = keyword.GetHash() + ".ogg";
-            var filePath = Path.Combine(_storageProviderService.OutputPath, fileName);
-            var results = _bookSearchService.SearchBooks(keyword, null);
-            if (results == null || results.Count == 0)
-                return null;
-            if (!File.Exists(filePath))
+            var sentences = sentencesText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x));
+            var outputFiles = new List<string>();
+            foreach(var sentence in sentences)
             {
-                var toBeSpoken = new List<string>() { $"The word selected is: {keyword}. " };
-                toBeSpoken.AddRange(results);
-                var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
-                speaker.Speak(string.Join(" ", toBeSpoken), filePath);
+                var fileName = sentence.GetHash() + ".ogg";
+                var filePath = Path.Combine(_storageProviderService.OutputPath, fileName);
+                if (!File.Exists(filePath))
+                {
+                    var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
+                    speaker.Speak(sentence, filePath);
+                }
+                outputFiles.Add(_storageProviderService.OutputFolder + "/" + fileName);
             }
-            return new Tuple<string, List<string>>(_storageProviderService.OutputFolder + "/" + fileName, results);
-        }
-        public string Speak(string sentence)
-        {
-            sentence = sentence.Trim();
-            var fileName = sentence.GetHash() + ".ogg";
-            var filePath = Path.Combine(_storageProviderService.OutputPath, fileName);
-            if (!File.Exists(filePath))
-            {
-                var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
-                speaker.Speak(sentence, filePath);
-            }
-            return _storageProviderService.OutputFolder + "/" + fileName;
+            return outputFiles;
         }
     }
 }

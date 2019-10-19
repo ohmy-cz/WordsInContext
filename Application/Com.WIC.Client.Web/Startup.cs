@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 
 namespace Com.WIC.Client.Web
@@ -33,6 +34,17 @@ namespace Com.WIC.Client.Web
             {
                 throw new UserFacingException("One or more required startup parameters were not set.");
             }
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(60*5);
+                //options.Cookie.HttpOnly = true;
+                //// Make the session cookie essential
+                //options.Cookie.IsEssential = true;
+            });
+
             services.AddSingleton(config);
             services.AddSingleton<ReCaptchaService>();
             services.AddSingleton(new StorageProviderService(_env.WebRootPath));
@@ -56,6 +68,7 @@ namespace Com.WIC.Client.Web
                 app.UseHsts();
             }
 
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             

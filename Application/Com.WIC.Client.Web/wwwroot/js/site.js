@@ -15,4 +15,16 @@ $(document)
             $('#wordentry').find('input').prop('required', true);
             $('#sentenceentry').find('textarea').removeAttr('required');
         }
+    })
+    .on('change', '.suggested-sentences :checkbox', function () {
+        var oldVal = $('#SentencesToSpeak').val();
+        var selectedSentence = $(this).parent().next().text();
+        if ($(this).is(':checked')) {
+            if ($.trim(oldVal) !== '') {
+                oldVal += '\r\n' + '\r\n';
+            }
+            $('#SentencesToSpeak').val($.trim(oldVal + selectedSentence));
+        } else {
+            $('#SentencesToSpeak').val($.trim(oldVal.replace(selectedSentence, '')));
+        }
     });

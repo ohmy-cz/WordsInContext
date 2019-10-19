@@ -1,0 +1,7 @@
+﻿@model HomeViewModel
+<div class="input-group mb-3 @(Model.ShowSentenceEntry ? "d-none" : string.Empty)" id="wordentry">
+    @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, pattern = "[A-Za-z]{3,}", maxlength = 20, placeholder = "Enter the word to practice", @class = "form-control" })
+    <div class="input-group-append">
+        <button class="btn @(Model?.SuggestedSentences != null && Model.SuggestedSentences.Count() > 0 ? "btn-outline-primary" : "btn-primary")" type="submit">Let me hear it</button>
+    </div>
+</div>

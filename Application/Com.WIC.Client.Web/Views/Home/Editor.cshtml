@@ -1,0 +1,55 @@
+﻿@using Com.WIC.BusinessLogic.Models
+@using Com.WIC.Client.Web.Controllers
+@using Microsoft.AspNetCore.Mvc
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Editor";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => Model.RecaptchaResponse, new { id = "g-recaptcha-response" })
+    await Html.RenderPartialAsync("_KeywordSearchField", Model);
+    @Html.ValidationSummary("Following errors occured:", new { @class = "alert alert-warning" })
+    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+        <p class="alert alert-danger">@Model.ErrorMessage</p>
+    }
+    @if (Model.SuggestedSentences != null && Model.SuggestedSentences.Count() > 0)
+    {
+        <div class="suggested-sentences py-3">
+            <table class="table table-bordered table-hover table-striped table-sm">
+                <tbody>
+                    @foreach (var sentence in Model.SuggestedSentences)
+                    {
+                        <tr>
+                            <td>
+                                @Html.CheckBoxFor(x => sentence.Item1)
+                            </td>
+                            <td>@sentence.Item2.Text</td>
+                            <td>
+                                <a href="@sentence.Item2?.Source?.Uri" target="_blank" title="@sentence.Item2?.Source?.Name" class="btn btn-outline-info btn-sm">i</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <div id="sentenceentry">
+        @Html.TextAreaFor(x => Model.SentencesToSpeak, new { maxlength = 255, rows = 10, placeholder = "Enter the word to practice", @class = "form-control" })
+        <div class="text-right">
+            <button class="btn btn-primary mt-3" type="submit">Let me hear it</button>
+        </div>
+    </div>
+
+}
+@if (Model.AudioFiles != null)
+{
+    <h2>Results:</h2>
+    @foreach (var audioFile in Model.AudioFiles)
+    {
+        <audio controls src="../../@audioFile" type="audio/ogg"></audio>
+    }
+}
