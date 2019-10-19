@@ -29,6 +29,17 @@
         </div>
     </footer>
 
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdEab4UAAAAAMSbyzZtaf_drwrorwy7rU0XL6jC"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LdEab4UAAAAAMSbyzZtaf_drwrorwy7rU0XL6jC', { action: 'homepage' }).then(function (token) {
+                var gr = document.getElementById('g-recaptcha-response');
+                if (gr) {
+                    gr.value = token;
+                }
+            });
+        });
+    </script>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
     </environment>

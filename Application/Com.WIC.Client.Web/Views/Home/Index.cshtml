@@ -9,6 +9,7 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => Model.RecaptchaResponse, new { id = "g-recaptcha-response" })
         <div class="input-group mb-3 @(Model.SentenceMode ? "d-none" : string.Empty)" id="wordentry">
             @Html.TextBoxFor(x => Model.Keyword, new { required = string.Empty, pattern = "[A-Za-z]{3,}", maxlength = 20, placeholder = "Enter the word to practice", @class = "form-control" })
             <div class="input-group-append">

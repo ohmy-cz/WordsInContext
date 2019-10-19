@@ -16,5 +16,6 @@ namespace Com.WIC.Client.Web.Models
         public List<string> Results { get; set; }
         public string AudioFile { get; set; }
         public string ErrorMessage { get; set; }
+        public string RecaptchaResponse { get; set; }
     }
 }

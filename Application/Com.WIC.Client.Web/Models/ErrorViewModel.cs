@@ -7,5 +7,9 @@ namespace Com.WIC.Client.Web.Models
         public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public int? StatusCode { get; set; }
+        public string OriginalPath { get; set; }
+        public string ErrorMessage { get; set; }
+        public string ErrorDetails { get; set; }
     }
 }

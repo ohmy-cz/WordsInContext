@@ -6,6 +6,7 @@ namespace Com.WIC.BusinessLogic.Models
 {
     public class Configuration
     {
+        public string RecaptchaSecret { get; set; }
         public APISettings APIs { get; set; }
     }
 

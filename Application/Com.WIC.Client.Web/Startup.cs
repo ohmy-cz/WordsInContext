@@ -1,5 +1,7 @@
-﻿using Com.WIC.BusinessLogic.Models;
+﻿using Com.WIC.BusinessLogic.Exceptions;
+using Com.WIC.BusinessLogic.Models;
 using Com.WIC.BusinessLogic.Services;
+using Com.WIC.Client.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +29,12 @@ namespace Com.WIC.Client.Web
             var config = new Configuration();
             Configuration.Bind("WordsInContext", config);
 
+            if(string.IsNullOrWhiteSpace(config.RecaptchaSecret))
+            {
+                throw new UserFacingException("One or more required startup parameters were not set.");
+            }
             services.AddSingleton(config);
+            services.AddSingleton<ReCaptchaService>();
             services.AddSingleton(new StorageProviderService(_env.WebRootPath));
             services.AddSingleton<BookSearchService>();
             services.AddSingleton<TextToSpeechService>();
@@ -44,8 +51,8 @@ namespace Com.WIC.Client.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 

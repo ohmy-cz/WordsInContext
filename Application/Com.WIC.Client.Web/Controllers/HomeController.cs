@@ -10,15 +10,21 @@ using System.IO;
 using Com.WIC.BusinessLogic.Models;
 using Microsoft.Extensions.Configuration;
 using Com.WIC.BusinessLogic.Extensions;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Com.WIC.Client.Web.Services;
+using Com.WIC.BusinessLogic.Exceptions;
 
 namespace Com.WIC.Client.Web.Controllers
 {
     public class HomeController : Controller
     {
         readonly WordInSentencesService _wordInSentencesService;
-        public HomeController(WordInSentencesService wordInSentencesService)
+        readonly ReCaptchaService _recaptchaService;
+        public HomeController(WordInSentencesService wordInSentencesService, ReCaptchaService recaptchaService)
         {
             _wordInSentencesService = wordInSentencesService ?? throw new ArgumentNullException(nameof(wordInSentencesService));
+            _recaptchaService = recaptchaService ?? throw new ArgumentNullException(nameof(recaptchaService));
         }
         public IActionResult Index()
         {
@@ -33,6 +39,14 @@ namespace Com.WIC.Client.Web.Controllers
             if(!ModelState.IsValid)
             {
                 return Error();
+            }
+            if(!string.IsNullOrWhiteSpace(model.RecaptchaResponse))
+            {
+                var r = _recaptchaService.Verify(model.RecaptchaResponse, Request.HttpContext.Connection.RemoteIpAddress.ToString());
+                if(!r.Success)
+                {
+                    throw new UserFacingException($"You are not human.", $"Google response: {string.Join(", ", r.ErrorCodes)}");
+                }
             }
             try
             {
