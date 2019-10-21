@@ -14,7 +14,7 @@ namespace Com.WIC.Client.Web.Models
         [MaxLength(1000)]
         public string SentencesToSpeak { get; set; }
         public bool ShowSentenceEntry { get; set; }
-        public IEnumerable<string> AudioFiles { get; set; }
+        public IEnumerable<AudioBundle> AudioFiles { get; set; }
         public string ErrorMessage { get; set; }
         public string RecaptchaResponse { get; set; }
         public IEnumerable<Tuple<bool, SentenceModel>> SuggestedSentences { get; set; }

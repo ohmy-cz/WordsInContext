@@ -7,6 +7,6 @@ namespace Com.WIC.Encoder.Models
 		public string FileName;
 		public string LocalPath;
 		public string Uri;
-		public FileTypeEnum Type;
+		public FileTypeEnum AudioType;
 	}
 }

@@ -1,5 +1,5 @@
-﻿using Com.WIC.BusinessLogic.Classes;
-using Com.WIC.BusinessLogic.Extensions;
+﻿using Com.WIC.BusinessLogic.Extensions;
+using Com.WIC.Client.Web.Models;
 using Com.WIC.Encoder;
 using Com.WIC.Encoder.Enums;
 using Com.WIC.Encoder.Models;
@@ -21,45 +21,76 @@ namespace Com.WIC.BusinessLogic.Services
 			_encoderService = encoderService ?? throw new ArgumentNullException(nameof(encoderService));
             _storageProviderService = storageProviderService;
         }
-        public IEnumerable<string> Speak(string sentencesText)
+        public IEnumerable<AudioBundle> Speak(string sentencesText)
         {
+            var ob = new List<AudioBundle>();
             var sentences = sentencesText.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x));
             var outputFiles = new List<AudioFile>();
-            foreach(var sentence in sentences)
+            var filesForTranscoding = new List<AudioFile>();
+            foreach (var sentence in sentences)
             {
                 var fileName = sentence.GetHash();
-				var fileExtension = ".ogg";
-				var filePath = Path.Combine(_storageProviderService.OutputPath, fileName + fileExtension);
+				var filePathOgg = Path.Combine(_storageProviderService.OutputPath, fileName + ".ogg");
+                var filePathMp3 = Path.Combine(_storageProviderService.OutputPath, fileName + ".mp3");
+                var ab = new AudioBundle {  Sources = new List<AudioSource>() };
 
-				// Get an ogg file, if it does not exist yet
-                if (!File.Exists(filePath + fileExtension))
+                var oggAudioFile = new AudioFile
+                {
+                    FileName = fileName + ".ogg",
+                    AudioType = FileTypeEnum.Ogg,
+                    LocalPath = _storageProviderService.OutputPath
+                };
+
+                // Get an ogg file, if it does not exist yet
+                if (!File.Exists(filePathOgg))
                 {
                     var speaker = _textToSpeechService.GetSpeaker(TextToSpeechProvidersEnum.IBMWatson);
-                    speaker.Speak(sentence, filePath);
-				}
+                    speaker.Speak(sentence, filePathOgg);
+                }
+                ab.Sources.Add(new AudioSource { Uri = $"{_storageProviderService.OutputFolder}/{fileName}.ogg", ContentType = "audio/ogg" });
+                outputFiles.Add(oggAudioFile);
 
-				// Make an mp3 file which is required by most browsers
-				if (File.Exists(filePath + fileExtension) && !File.Exists(filePath + ".mp3"))
-				{
-					var transcodingResult = _encoderService.ConvertAsync(FileTypeEnum.Mp3, new AudioFile
-					{
-						FileName = fileName + fileExtension,
-						Type = FileTypeEnum.Ogg,
-						LocalPath = _storageProviderService.OutputPath
-					}).Result;
-				}
+                if (!File.Exists(filePathMp3))
+                {
+                    filesForTranscoding.Add(oggAudioFile);
+                }
+                ab.Sources.Add(new AudioSource { Uri = $"{_storageProviderService.OutputFolder}/{fileName}.mp3", ContentType = "audio/mp3" });
+                ob.Add(ab);
+            }
 
-				outputFiles.Add(new AudioFile
-				{
-					FileName = fileName + fileExtension,
-					Type = FileTypeEnum.Ogg,
-					LocalPath = _storageProviderService.OutputPath
-				});
-			}
+            if (filesForTranscoding.Count() > 0)
+            {
+                // TODO: Add succesfully converted mp3s to the output
+                var convertedResult = _encoderService.ConvertAsync(FileTypeEnum.Mp3, filesForTranscoding.ToArray()).Result;
+            }
+            var combinedFileName = $"Combined-{string.Join("-", sentences).GetHash()}";
+            var combinedFileNameOgg = combinedFileName + ".ogg";
+            var combinedFileNameMp3 = combinedFileName + ".mp3";
+            if (filesForTranscoding.Count() >= 2)
+            {
+                var ab = new AudioBundle { Sources = new List<AudioSource>() };
+                var joinAudioFile = new AudioFile
+                {
+                    FileName = combinedFileNameMp3,
+                    AudioType = FileTypeEnum.Mp3,
+                    LocalPath = _storageProviderService.OutputPath
+                };
 
-			var joinResult = _encoderService.JoinAsync(FileTypeEnum.Mp3, outputFiles.ToArray()).Result;
+                if (!File.Exists(Path.Combine(_storageProviderService.OutputPath, combinedFileNameMp3)))
+                {
+                    var joinResult = _encoderService.JoinAsync(joinAudioFile, filesForTranscoding.Select(x => new AudioFile { AudioType = FileTypeEnum.Mp3, FileName  = x.FileName.Replace(".ogg", ".mp3"), LocalPath = x.LocalPath }).ToArray()).Result;
+                }
 
-			return outputFiles.Select(x => _storageProviderService.OutputFolder + "/" + x.FileName);
+                ab.Sources.Add(new AudioSource { Uri = $"{_storageProviderService.OutputFolder}/{combinedFileNameMp3}", ContentType = "audio/mp3" });
+
+                //if (!File.Exists(Path.Combine(_storageProviderService.OutputPath, combinedFileNameOgg)))
+                //{
+                //    var convertResult = _encoderService.ConvertAsync(FileTypeEnum.Ogg, joinAudioFile).Result;
+                //}
+                //ab.Sources.Add(new AudioSource { Uri = $"{_storageProviderService.OutputFolder}/{combinedFileNameOgg}", ContentType = "audio/ogg" });
+                ob.Add(ab);
+            }
+			return ob;
         }
     }
 }
