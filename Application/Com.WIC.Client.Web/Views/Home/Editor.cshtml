@@ -6,7 +6,7 @@
     ViewData["Title"] = "Editor";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Index", "Home"))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => Model.RecaptchaResponse, new { id = "g-recaptcha-response" })

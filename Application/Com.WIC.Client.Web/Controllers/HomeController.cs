@@ -81,6 +81,7 @@ namespace Com.WIC.Client.Web.Controllers
             {
                 return View(model);
             }
+#if RELEASE
             if (!string.IsNullOrWhiteSpace(model.RecaptchaResponse))
             {
                 var r = _recaptchaService.Verify(model.RecaptchaResponse, Request.HttpContext.Connection.RemoteIpAddress.ToString());
@@ -89,6 +90,7 @@ namespace Com.WIC.Client.Web.Controllers
                     throw new UserFacingException($"You are not human.", $"Google response: {string.Join(", ", r.ErrorCodes)}");
                 }
             }
+#endif
             try
             {
                 if (!string.IsNullOrWhiteSpace(model.SentencesToSpeak))
