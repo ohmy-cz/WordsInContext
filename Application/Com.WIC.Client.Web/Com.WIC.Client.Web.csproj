@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Com.WIC.BusinessLogic\Com.WIC.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Com.WIC.Encoder\Com.WIC.Encoder.csproj" />
   </ItemGroup>
 
 

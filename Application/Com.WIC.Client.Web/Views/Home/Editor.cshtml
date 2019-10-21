@@ -50,6 +50,9 @@
     <h2>Results:</h2>
     @foreach (var audioFile in Model.AudioFiles)
     {
-        <audio controls src="../../@audioFile" type="audio/ogg"></audio>
+        <audio controls type="audio/ogg">
+            <source src="../../@(audioFile).mp3" type="audio/mp3" />
+            <source src="../../@(audioFile).ogg" type="audio/ogg" />
+        </audio>
     }
 }

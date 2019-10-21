@@ -9,4 +9,8 @@
     <PackageReference Include="IBM.Watson.TextToSpeech.v1" Version="4.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Com.WIC.Encoder\Com.WIC.Encoder.csproj" />
+  </ItemGroup>
+
 </Project>

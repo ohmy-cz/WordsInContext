@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Com.WIC.Encoder
 {
-	public class Encoder
+	public class EncoderService
 	{
 		private readonly string _ffmpegBinPath;
 		private readonly string _outputPath;
-		public Encoder(string ffmpegBinPath)
+		public EncoderService(string ffmpegBinPath)
 		{
 			_ffmpegBinPath = ffmpegBinPath ?? throw new ArgumentException(nameof(ffmpegBinPath));
 			_outputPath = Path.GetTempPath();

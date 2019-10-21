@@ -2,6 +2,7 @@
 using Com.WIC.BusinessLogic.Models;
 using Com.WIC.BusinessLogic.Services;
 using Com.WIC.Client.Web.Services;
+using Com.WIC.Encoder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -46,6 +47,7 @@ namespace Com.WIC.Client.Web
             });
 
             services.AddSingleton(config);
+			services.AddSingleton(new EncoderService(config.FfmpegBinPath));
             services.AddSingleton<ReCaptchaService>();
             services.AddSingleton(new StorageProviderService(_env.WebRootPath));
             services.AddSingleton<BookSearchService>();

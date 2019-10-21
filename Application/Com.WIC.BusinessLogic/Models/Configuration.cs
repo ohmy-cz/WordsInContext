@@ -8,7 +8,9 @@ namespace Com.WIC.BusinessLogic.Models
     {
         public string RecaptchaSecret { get; set; }
         public APISettings APIs { get; set; }
-    }
+		public string FfmpegBinPath { get; set; }
+
+	}
 
     public class APISettings
     {
