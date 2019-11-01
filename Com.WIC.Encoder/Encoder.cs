@@ -17,7 +17,7 @@ namespace Com.WIC.Encoder
         private readonly Regex _fileExtensionRegex;
 		public EncoderService(string ffmpegBinPath)
 		{
-			_ffmpegBinPath = ffmpegBinPath ?? throw new ArgumentException(nameof(ffmpegBinPath));
+			_ffmpegBinPath = ffmpegBinPath ?? "ffmpeg";
 			_outputFileName = Path.GetTempPath();
             _fileExtensionRegex = new Regex(@"\.([a-z]{1,3})$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Compiled);
 		}
