@@ -5,24 +5,23 @@ using Com.WIC.Client.Web.Services;
 using Com.WIC.Encoder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
-using System.IO;
 
 namespace Com.WIC.Client.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             _env = env;
             Configuration = configuration;
         }
 
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -46,6 +45,7 @@ namespace Com.WIC.Client.Web
                 //options.Cookie.IsEssential = true;
             });
 
+            services.AddRazorPages();
             services.AddSingleton(config);
 			services.AddSingleton(new EncoderService(config.FfmpegBinPath));
             services.AddSingleton<ReCaptchaService>();
@@ -53,11 +53,10 @@ namespace Com.WIC.Client.Web
             services.AddSingleton<BookSearchService>();
             services.AddSingleton<TextToSpeechService>();
             services.AddSingleton<WordInSentencesService>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -73,12 +72,14 @@ namespace Com.WIC.Client.Web
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
-            app.UseMvc(routes =>
+
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
