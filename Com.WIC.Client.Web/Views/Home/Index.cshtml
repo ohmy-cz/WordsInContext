@@ -14,7 +14,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(x => Model.RecaptchaResponse, new { id = "g-recaptcha-response" })
             await Html.RenderPartialAsync("_KeywordSearchField", Model);
-            @Html.CheckBoxFor(x => Model.ShowSentenceEntry, new { id = "showsentenceentry" }) <label for="showsentenceentry">Let me enter a whole sentence</label>
+            @Html.CheckBoxFor(x => Model.ShowSentenceEntry, new { id = "showsentenceentry" }) <label for="showsentenceentry">Enter a whole sentence</label>
             <div class="@(Model.ShowSentenceEntry ? string.Empty : "d-none")" id="sentenceentry">
                 @Html.TextAreaFor(x => Model.SentencesToSpeak, new { maxlength = 255, placeholder = "Enter the word to practice", @class = "form-control" })
                 <button class="btn btn-primary mt-3" type="submit">Let me hear it</button>
