@@ -27,11 +27,18 @@
 
     <footer class="border-top footer text-muted mt-5 pt-3">
         <div class="container">
-            @{ 
-                Version v = Assembly.GetExecutingAssembly().GetName().Version;
-                string About = string.Format(CultureInfo.InvariantCulture, @"Words in context {0}.{1}.{2} (r{3})", v.Major, v.Minor, v.Build, v.Revision);
-            }
-            &copy; 2019 - <a href="https://www.jancerveny.net">jancerveny.net</a> &amp; <a href="http://www.bleha.eu">bleha.eu</a>. @About
+            <div class="row">
+                <div class="col">
+                    @{
+                        Version v = Assembly.GetExecutingAssembly().GetName().Version;
+                        string About = string.Format(CultureInfo.InvariantCulture, @"Words in context {0}.{1}.{2} (r{3})", v.Major, v.Minor, v.Build, v.Revision);
+                    }
+                    <p class="text-debug">@About</p>
+                </div>
+                <div class="col text-right">
+                    &copy; 2019 - <a href="https://www.jancerveny.net">jancerveny.net</a> &amp; <a href="http://www.bleha.eu">bleha.eu</a>.
+                </div>
+            </div>
         </div>
     </footer>
 

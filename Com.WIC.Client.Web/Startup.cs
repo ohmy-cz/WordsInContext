@@ -46,6 +46,8 @@ namespace Com.WIC.Client.Web
                 //options.Cookie.IsEssential = true;
             });
 
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddSingleton(config);
 			services.AddSingleton(new EncoderService(config.FfmpegBinPath));

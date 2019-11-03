@@ -16,6 +16,12 @@ $dark: #1e2b37;
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
+.text-debug {
+    font-family:Consolas, 'Lucida Console';
+    color:#ccc;
+    font-size:10pt;
+}
+
 .suggested-sentences {
     max-height:200pt;
     overflow:auto;
