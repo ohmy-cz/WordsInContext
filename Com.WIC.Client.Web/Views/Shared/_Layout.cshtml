@@ -28,10 +28,10 @@
     <footer class="border-top footer text-muted mt-5 pt-3">
         <div class="container">
             <div class="row">
-                <div class="col text-right">
+                <div class="col">
                     &copy; 2019 - <a href="https://www.jancerveny.net">jancerveny.net</a> &amp; <a href="http://www.bleha.eu">bleha.eu</a>.
                 </div>
-                <div class="col">
+                <div class="col text-right">
                     @{
                         Version v = Assembly.GetExecutingAssembly().GetName().Version;
                         string About = string.Format(CultureInfo.InvariantCulture, @"Words in context {0}.{1}.{2} (r{3})", v.Major, v.Minor, v.Build, v.Revision);
