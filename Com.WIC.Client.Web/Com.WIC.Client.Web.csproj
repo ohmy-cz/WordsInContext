@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
 
