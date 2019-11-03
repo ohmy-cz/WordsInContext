@@ -70,7 +70,7 @@ namespace Com.WIC.Client.Web
             }
 
             app.UseSession();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
