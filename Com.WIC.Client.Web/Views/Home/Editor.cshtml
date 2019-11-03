@@ -44,7 +44,7 @@
         </div>
     }
     <div id="sentenceentry">
-        @Html.TextAreaFor(x => Model.SentencesToSpeak, new { maxlength = 255, rows = 10, placeholder = "Enter the word to practice", @class = "form-control" })
+        @Html.TextAreaFor(x => Model.SentencesToSpeak, new { maxlength = 1000, rows = 10, placeholder = "Enter the word to practice", @class = "form-control" })
         <div class="text-right">
             <button class="btn btn-primary mt-3" type="submit">Let me hear it</button>
         </div>

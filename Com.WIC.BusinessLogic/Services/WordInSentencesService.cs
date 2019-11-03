@@ -78,7 +78,7 @@ namespace Com.WIC.BusinessLogic.Services
 
                 if (!File.Exists(Path.Combine(_storageProviderService.OutputPath, combinedFileNameMp3)))
                 {
-                    var joinResult = _encoderService.JoinAsync(joinAudioFile, filesForTranscoding.Select(x => new AudioFile { AudioType = FileTypeEnum.Mp3, FileName  = x.FileName.Replace(".ogg", ".mp3"), LocalPath = x.LocalPath }).ToArray()).Result;
+                    var joinResult = _encoderService.JoinAsync(joinAudioFile, 3, filesForTranscoding.Select(x => new AudioFile { AudioType = FileTypeEnum.Mp3, FileName  = x.FileName.Replace(".ogg", ".mp3"), LocalPath = x.LocalPath }).ToArray()).Result;
                 }
 
                 ab.Sources.Add(new AudioSource { Uri = $"{_storageProviderService.OutputFolder}/{combinedFileNameMp3}", ContentType = "audio/mp3" });

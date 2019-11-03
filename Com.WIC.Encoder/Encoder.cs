@@ -84,7 +84,7 @@ namespace Com.WIC.Encoder
         /// <param name="outputFileName">The resulting joined audio</param>
         /// <param name="audioFiles">Input audio files</param>
         /// <returns></returns>
-		public async Task<int> JoinAsync(AudioFile outputFile, params AudioFile[] audioFiles)
+		public async Task<int> JoinAsync(AudioFile outputFile, int repetitions = 1, params AudioFile[] audioFiles)
 		{
             if (outputFile == null)
                 throw new Exception("The output filename can not be empty");
@@ -98,7 +98,7 @@ namespace Com.WIC.Encoder
             //    throw new Exception("Output file name has unrecognized file extension");
             if (audioFiles.Where(x => x.AudioType != outputFile.AudioType).Any())
                 throw new Exception("Not all files provided for joining are of the same file type.");
-            var ffmpegVars = $"-i \"concat:{string.Join("|", audioFiles.Select(x => Path.Combine(x.LocalPath, x.FileName)))}\" -c copy {Path.Combine(outputFile.LocalPath, outputFile.FileName)}";
+            var ffmpegVars = $"-i \"concat:{string.Join("|", audioFiles.Select(x => string.Join("|", Enumerable.Repeat(Path.Combine(x.LocalPath, x.FileName), repetitions))))}\" -c copy {Path.Combine(outputFile.LocalPath, outputFile.FileName)}";
             var tcs = new TaskCompletionSource<int>();
 
 			Process proc = new Process
