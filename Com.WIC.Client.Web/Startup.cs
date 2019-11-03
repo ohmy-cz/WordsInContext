@@ -5,6 +5,7 @@ using Com.WIC.Client.Web.Services;
 using Com.WIC.Encoder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,6 +69,10 @@ namespace Com.WIC.Client.Web
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
 
             app.UseSession();
             //app.UseHttpsRedirection();
