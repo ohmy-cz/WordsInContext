@@ -4,7 +4,7 @@ $font-family-base: Montserrat;
 @import url(https://fonts.googleapis.com/css?family=Montserrat:200,300,400,700);
 $headings-font-family: Montserrat;
 
-$primary: #008a18;
+$primary: green;
 $secondary: #6f7f8c;
 $success: #3e4d59;
 $danger: #cc330d;
@@ -17,7 +17,7 @@ $dark: #1e2b37;
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .text-debug {
-    font-family:Consolas, 'Lucida Console';
+    font-family:Consolas, 'Lucida Console', 'Courier New';
     color:#ccc;
     font-size:10pt;
 }

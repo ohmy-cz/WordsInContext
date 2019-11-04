@@ -25,7 +25,6 @@ namespace Com.WIC.Client.Web
         private readonly IWebHostEnvironment _env;
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new Configuration();
