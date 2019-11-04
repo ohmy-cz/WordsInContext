@@ -1,4 +1,4 @@
-﻿/// <binding ProjectOpened='watch' />
+/// <binding ProjectOpened='watch, default' />
 const { src, dest, watch } = require('gulp');
 const sass = require('gulp-sass');
 const minifyCSS = require('gulp-csso');

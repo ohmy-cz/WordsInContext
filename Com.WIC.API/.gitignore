@@ -1,0 +1,7 @@
+.vs
+appsettings.*.json
+*.ogg
+*.mp3
+node_modules
+wwwroot/css/*.css
+Output
