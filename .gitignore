@@ -353,3 +353,4 @@ MigrationBackup/
 .ionide/
 .vs/
 .vs
+/Application/Com.WIC.Client.Web/appsettings.development.json
