@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Com.WIC.Client.Web.Controllers
 {
@@ -19,11 +20,13 @@ namespace Com.WIC.Client.Web.Controllers
         readonly WordInSentencesService _wordInSentencesService;
         readonly ReCaptchaService _recaptchaService;
         readonly BookSearchService _bookSearchService;
-        public HomeController(WordInSentencesService wordInSentencesService, ReCaptchaService recaptchaService, BookSearchService bookSearchService)
+		readonly APIService _apiService;
+        public HomeController(WordInSentencesService wordInSentencesService, ReCaptchaService recaptchaService, BookSearchService bookSearchService, APIService apiService)
         {
             _wordInSentencesService = wordInSentencesService ?? throw new ArgumentNullException(nameof(wordInSentencesService));
             _recaptchaService = recaptchaService ?? throw new ArgumentNullException(nameof(recaptchaService));
             _bookSearchService = bookSearchService ?? throw new ArgumentNullException(nameof(bookSearchService));
+			_apiService = apiService ?? throw new ArgumentNullException(nameof(apiService));
         }
         public IActionResult Index()
         {
@@ -58,6 +61,11 @@ namespace Com.WIC.Client.Web.Controllers
             HttpContext.Session.SetString(SessionKeyName, JsonConvert.SerializeObject(model));
             return RedirectToAction("Editor");
         }
+
+		public async Task<IActionResult> APITest()
+		{
+			return await _apiService.Speak("Test");
+		}
 
         public IActionResult Editor()
         {

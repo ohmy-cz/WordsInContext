@@ -34,7 +34,10 @@ namespace Com.WIC.API
             services.AddSingleton(config);
             services.AddSingleton(new StorageProviderService(_env.ContentRootPath));
             services.AddSingleton(new EncoderService(config.FfmpegBinPath));
-            services.AddControllers();
+			services.AddSingleton<BookSearchService>();
+			services.AddSingleton<TextToSpeechService>();
+			services.AddSingleton<WordInSentencesService>();
+			services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,17 +46,23 @@ namespace Com.WIC.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+			}
+			else
+			{
+				app.UseExceptionHandler("/error");
+			}
 
-            app.UseRouting();
-
-            app.UseAuthorization();
+			app.UseRouting();
+			app.UseStatusCodePages();
+			app.UseStatusCodePagesWithReExecute("/error/{0}");
+			app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                endpoints.MapControllerRoute("default", "{controller=API}/{action=GetSupportedLanguages}/{id?}");
-            });
+				endpoints.MapControllerRoute(
+					name: "default",
+					pattern: "{controller=Welcome}/{action=Index}/{id?}");
+			});
         }
     }
 }

@@ -52,7 +52,8 @@ namespace Com.WIC.Client.Web
 			services.AddSingleton(new EncoderService(config.FfmpegBinPath));
             services.AddSingleton<ReCaptchaService>();
             services.AddSingleton(new StorageProviderService(_env.WebRootPath));
-            services.AddSingleton<BookSearchService>();
+			services.AddSingleton<APIService>();
+			services.AddSingleton<BookSearchService>();
             services.AddSingleton<TextToSpeechService>();
             services.AddSingleton<WordInSentencesService>();
         }
